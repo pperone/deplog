@@ -95,33 +95,27 @@ def handle_event(channel, org, message):
     response = None
     env_starter = '*Environment*'
     branch_starter = '*Branch*'
+    s_icon = ':apple:'
+    f_icon = ':apple:'
+    t_icon = ':apple:'
 
     if message.startswith('*New version deployed'):
         environment = message[message.index(env_starter) + len(env_starter):].split()[0]
         branch = message[message.index(branch_starter) + len(branch_starter):].split()[0]
 
         if environment == 'staging':
-          org.staging = branch
-          if branch == 'develop':
-            s_icon = ':green_apple:'
-          else:
-            s_icon = ':apple:'
+            org.staging = branch
         elif environment == 'feature':
-          org.feature = branch
-          if branch == 'develop':
-            f_icon = ':green_apple:'
-          else:
-            f_icon = ':apple:'
+            org.feature = branch
         elif environment == 'teammobile':
-          org.teammobile = branch
-          if branch == 'develop':
+            org.teammobile = branch
+
+        if org.staging == 'develop':
+            s_icon = ':green_apple:'
+        elif org.feature == 'develop':
+            f_icon = ':green_apple:'
+        elif org.teammobile == 'develop':
             t_icon = ':green_apple:'
-          else:
-            t_icon = ':apple:'
-        
-        print(org.staging)
-        print(org.feature)
-        print(org.teammobile)
 
         response = "*Branches currently deployed to each environment:* \n\n " + s_icon + " *staging  |*  Current branch: *" + org.staging + "* \n " + f_icon + " *feature  |*  Current branch: *" + org.feature + "* \n " + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
