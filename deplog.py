@@ -102,16 +102,28 @@ def handle_event(channel, org, message):
 
         if environment == 'staging':
           org.staging = branch
+          if branch == 'develop':
+            s_icon = ':green_apple:'
+          else:
+            s_icon = ':apple:'
         elif environment == 'feature':
           org.feature = branch
+          if branch == 'develop':
+            f_icon = ':green_apple:'
+          else:
+            f_icon = ':apple:'
         elif environment == 'teammobile':
           org.teammobile = branch
+          if branch == 'develop':
+            t_icon = ':green_apple:'
+          else:
+            t_icon = ':apple:'
         
         print(org.staging)
         print(org.feature)
         print(org.teammobile)
 
-        response = "*Branches currently deployed to each environment:* \n\n :green_apple: *staging  |*  Current branch: *" + org.staging + "* \n :apple: *feature  |*  Current branch: *" + org.feature + "* \n :apple: *teammobile  |*  Current branch: *" + org.teammobile + "*"
+        response = "*Branches currently deployed to each environment:* \n\n " + s_icon + " *staging  |*  Current branch: *" + org.staging + "* \n " + f_icon + " *feature  |*  Current branch: *" + org.feature + "* \n " + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
         slack_client.api_call(
             "chat.postMessage",
