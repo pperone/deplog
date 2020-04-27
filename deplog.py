@@ -80,12 +80,6 @@ def parse_bot_commands(slack_events):
             org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
             handle_event(channel, org, event["text"])
 
-            if "attachments" in event:
-                if event["attachments"][0]["author_subname"] == 'BugBot':
-                    handle_event(channel, org, message)
-            elif user_id == deplog_id:
-                handle_event(channel, org, message)
-
     return None, None
 
 
@@ -99,14 +93,17 @@ def parse_direct_mention(message_text):
 # All the possible commands from user input
 def handle_event(channel, org, message):
     response = None
-    staging = org.staging
-    feature = org.feature
+    env_starter = '*Environment*'
+    branch_starter = '*Branch*'
 
     if message.startswith('New version deployed'):
-        response = """*Branches currently deployed to each environment:* \n\n
-:green_apple: *staging  |*  Current branch: *develop* \n
-:apple: *feature  |*  Current branch: *some_other* \n
-:apple: *teammobile  |*  Current branch: *some_other*"""
+        environment = message[message.index(env_starter) + len(env_starter)].split()[0]
+        branch = message[message.index(branch_starter) + len(branch_starter)].split()[0]
+
+        if environment == 'staging':
+          org.staging = branch
+        
+        response = "*Branches currently deployed to each environment:* \n\n :green_apple: *staging  |*  Current branch: *" + org.staging + "* \n :apple: *feature  |*  Current branch: *" + org.feature + "* \n :apple: *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
         slack_client.api_call(
             "chat.postMessage",
