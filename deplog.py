@@ -78,6 +78,7 @@ def parse_bot_commands(slack_events):
             print(event["text"])
             user_id, message = parse_direct_mention(event["text"])
             org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
+            handle_event(channel, org, event["text"])
 
             if "attachments" in event:
                 if event["attachments"][0]["author_subname"] == 'BugBot':
@@ -102,7 +103,10 @@ def handle_event(channel, org, message):
     feature = org.feature
 
     if message.startswith('New version deployed'):
-        print('wow')
+        response = """*Branches currently deployed to each environment:* \n\n
+:green_apple: *staging  |*  Current branch: *develop* \n
+:apple: *feature  |*  Current branch: *some_other* \n
+:apple: *teammobile  |*  Current branch: *some_other*"""
 
         slack_client.api_call(
             "chat.postMessage",
