@@ -20,6 +20,7 @@ class Organization(base):
     channel = Column(String, primary_key=True)
     staging = Column(Integer)
     feature = Column(String)
+    teammobile = Column(String)
 
 Session = sessionmaker(engine)  
 session = Session()
@@ -59,21 +60,24 @@ def evaluate_org(channel):
         channel = org.channel
         staging = org.staging
         feature = org.feature
+        teammobile = org.teammobile
     else:
         org = create_org(channel)
         channel = org.channel
         staging = org.staging
         feature = org.feature
+        teammobile = org.teammobile
     
-    return org, channel, staging, feature
+    return org, channel, staging, feature, teammobile
 
 
 # Processes the message
 def parse_bot_commands(slack_events):
     for event in slack_events:
         if event["type"] == "message" and not "subtype" in event:
+            print(event["text"])
             user_id, message = parse_direct_mention(event["text"])
-            org, channel, staging, feature = evaluate_org(event["channel"])
+            org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
 
             if "attachments" in event:
                 if event["attachments"][0]["author_subname"] == 'BugBot':
