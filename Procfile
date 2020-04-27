@@ -1,1 +1,1 @@
-worker: python3 finn_bot.py
+worker: python3 deplog.py
