@@ -18,7 +18,7 @@ class Organization(base):
     __tablename__ = 'organizations'
 
     channel = Column(String, primary_key=True)
-    staging = Column(Integer)
+    staging = Column(String)
     feature = Column(String)
     teammobile = Column(String)
 
@@ -107,6 +107,10 @@ def handle_event(channel, org, message):
         elif environment == 'teammobile':
           org.teammobile = branch
         
+        print(org.staging)
+        print(org.feature)
+        print(org.teammobile)
+
         response = "*Branches currently deployed to each environment:* \n\n :green_apple: *staging  |*  Current branch: *" + org.staging + "* \n :apple: *feature  |*  Current branch: *" + org.feature + "* \n :apple: *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
         slack_client.api_call(
