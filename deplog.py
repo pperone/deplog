@@ -77,9 +77,9 @@ def parse_bot_commands(slack_events):
 
             if "attachments" in event:
                 if event["attachments"][0]["author_subname"] == 'BugBot':
-                    handle_event(channel)
+                    handle_event(channel, message)
             elif user_id == deplog_id:
-                handle_event(channel)
+                handle_event(channel, message)
 
     return None, None
 
@@ -92,7 +92,7 @@ def parse_direct_mention(message_text):
 
 
 # All the possible commands from user input
-def handle_command(command, team):
+def handle_event(channel, message):
     response = None
     users = team.users.split()
 
