@@ -40,8 +40,8 @@ MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
 
 # Creates an organization in the database
 def create_org(channel):
-    org = Organization(channel=channel, feature='', staging='')
-    session.add(Organization(channel=channel, feature='', staging=0))
+    org = Organization(channel=channel, feature='', staging='', teammobile='')
+    session.add(Organization(channel=channel, feature='', staging='', teammobile=''))
     session.commit()
     return org
 
@@ -96,12 +96,16 @@ def handle_event(channel, org, message):
     env_starter = '*Environment*'
     branch_starter = '*Branch*'
 
-    if message.startswith('New version deployed'):
-        environment = message[message.index(env_starter) + len(env_starter)].split()[0]
-        branch = message[message.index(branch_starter) + len(branch_starter)].split()[0]
+    if message.startswith('*New version deployed'):
+        environment = message[message.index(env_starter) + len(env_starter):].split()[0]
+        branch = message[message.index(branch_starter) + len(branch_starter):].split()[0]
 
         if environment == 'staging':
           org.staging = branch
+        elif environment == 'feature':
+          org.feature = branch
+        elif environment == 'teammobile':
+          org.teammobile = branch
         
         response = "*Branches currently deployed to each environment:* \n\n :green_apple: *staging  |*  Current branch: *" + org.staging + "* \n :apple: *feature  |*  Current branch: *" + org.feature + "* \n :apple: *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
