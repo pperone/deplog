@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 # Database creation and setup
-engine = create_engine(os.environ['DATABASE_URL'])
+engine = create_engine(os.environ['DEPLOG_DB_URL'])
 base = declarative_base()
 
 class Organization(base):  
@@ -28,7 +28,7 @@ base.metadata.create_all(engine)
 
 
 # Slack setup
-slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
+slack_client = SlackClient(os.environ.get('DEPLOG_TOKEN'))
 deplog_id = None
 
 
