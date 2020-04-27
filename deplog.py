@@ -77,9 +77,9 @@ def parse_bot_commands(slack_events):
 
             if "attachments" in event:
                 if event["attachments"][0]["author_subname"] == 'BugBot':
-                    handle_event(channel, message)
+                    handle_event(channel, org, message)
             elif user_id == deplog_id:
-                handle_event(channel, message)
+                handle_event(channel, org, message)
 
     return None, None
 
@@ -92,86 +92,22 @@ def parse_direct_mention(message_text):
 
 
 # All the possible commands from user input
-def handle_event(channel, message):
+def handle_event(channel, org, message):
     response = None
-    users = team.users.split()
+    staging = org.staging
+    feature = org.feature
 
-    if command.startswith('assign'):
-        if len(users) > 0:
-            response = users[team.current]
-            if team.current == len(users) - 1:
-                team.current = 0
-            else:
-                team.current += 1
-        else:
-            response = "There is no one assigned for taking tasks yet. Use the *add* command followed by a user mention."
+    if message.startswith('New version deployed'):
+        print('wow')
 
-    if command.startswith('list'):
-        if len(users) > 0:
-            response = users
-        else:
-            response = "There is no one assigned for taking tasks yet. Use the *add* command followed by a user mention."
+        slack_client.api_call(
+            "chat.postMessage",
+            channel = channel,
+            text = response,
+            as_user = True
+        )
 
-    if command.startswith('increase'):
-        if len(users) > team.current + 1:
-            team.current += 1
-            response = "Position in queue moved forward by one person"
-        elif len(users) > 1:
-            team.current = 0
-            response = "Position in queue moved forward by one person"
-        else:
-            response = "Queue position can\'t be moved"
-    
-    if command.startswith('decrease'):
-        if team.current > 0:
-            team.current -= 1
-            response = "Position in queue moved backward by one person"
-        elif len(users) > 1:
-            team.current = len(users) - 1
-            response = "Position in queue moved backward by one person"
-        else:
-            response = "Queue position can\'t be moved"
-
-    if command.startswith('current'):
-        response = "Queue position is currently *{}*.".format(team.current)
-
-    if command.startswith('add'):
-        mention = command.split()[1]
-
-        if mention:
-            team.users += " " + mention
-            response = "{} added to bug squashing squad.".format(mention)
-        else:
-            response = "Not a valid addition. Try tagging someone."
-
-    if command.startswith('remove'):
-        mention = command.split()[1]
-
-        if mention in users:
-            remove = " " + mention
-            updated = team.users.replace(remove, '')
-            team.users = updated
-            response = "{} removed from bug squashing squad.".format(mention)
-        else:
-            response = "{} is not part of the bug squashing squad.".format(mention)
-
-        if team.current >= len(users):
-            team.current -= 1
-    
-    if command.startswith('last'):
-        if len(users) > 0:
-            response = users[team.current - 1]
-        else:
-            response = "There is no one assigned for taking tasks yet. Use the *add* command followed by a user mention."
-
-    slack_client.api_call(
-        "chat.postMessage",
-        channel = team.channel,
-        text = response,
-        as_user = True
-    )
-
-    session.commit()
+        session.commit()
 
 
 if __name__ == "__main__":
