@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 # Database creation and setup
-engine = create_engine(os.environ['DATABASE_URL'])
+engine = create_engine(os.environ['DEPLOG_DB_URL'])
 base = declarative_base()
 
 class Organization(base):  
@@ -75,19 +75,12 @@ def evaluate_org(channel):
 def parse_bot_commands(slack_events):
     for event in slack_events:
         if event["type"] == "message" and not "subtype" in event:
-            print(event["text"])
-            user_id, message = parse_direct_mention(event["text"])
-            org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
-            handle_event(channel, org, event["text"])
+            if "attachments" in event:
+                org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
+                message = event["attachments"][0]["text"]
+                handle_event(channel, org, message)
 
     return None, None
-
-
-# Extract direct mention to bot
-def parse_direct_mention(message_text):
-    matches = re.search(MENTION_REGEX, message_text)
-
-    return (matches.group(1), matches.group(2).strip()) if matches else (None, None)
 
 
 # All the possible commands from user input
