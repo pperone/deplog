@@ -112,7 +112,7 @@ def handle_event(channel, org, message):
         if org.teammobile == 'develop':
             t_icon = ':green_apple:'
 
-        response = s_icon + " *staging  |*  Current branch: *" + org.staging + "* \n\n " + f_icon + " *feature  |*  Current branch: *" + org.feature + "* \n\n " + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*"
+        response = "\n" + s_icon + " *staging  |*  Current branch: *" + org.staging + "* \n\n " + f_icon + " *feature  |*  Current branch: *" + org.feature + "* \n\n " + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
         slack_client.api_call(
             "chat.postMessage",
