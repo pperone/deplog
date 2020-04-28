@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 # Database creation and setup
-engine = create_engine(os.environ['DEPLOG_DB_URL'])
+engine = create_engine(os.environ['DATABASE_URL'])
 base = declarative_base()
 
 class Organization(base):  
@@ -112,7 +112,7 @@ def handle_event(channel, org, message):
         if org.teammobile == 'develop':
             t_icon = ':green_apple:'
 
-        response = "*Branches currently deployed to each environment:* \n\n " + s_icon + " *staging  |*  Current branch: *" + org.staging + "* \n\n " + f_icon + " *feature  |*  Current branch: *" + org.feature + "* \n\n " + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*"
+        response = s_icon + " *staging  |*  Current branch: *" + org.staging + "* \n\n " + f_icon + " *feature  |*  Current branch: *" + org.feature + "* \n\n " + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
         slack_client.api_call(
             "chat.postMessage",
