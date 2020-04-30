@@ -15,7 +15,7 @@ engine = create_engine(os.environ['DATABASE_URL'])
 base = declarative_base()
 debug_channel = 'C01224QRGSV'
 debug_event = ''
-debugging = False
+debugging = True
 
 class Organization(base):  
     __tablename__ = 'organizations'
