@@ -95,6 +95,7 @@ def parse_bot_commands(slack_events):
 # All the possible commands from user input
 def handle_event(channel, org, message):
     response = None
+    production = False
     env_starter = '*Environment*'
     branch_starter = '*Branch*'
     s_icon = ':apple:'
