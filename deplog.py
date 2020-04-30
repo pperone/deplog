@@ -134,6 +134,7 @@ def handle_event(channel, org, message):
                     text = response,
                     as_user = True
                 )
+                session.commit()
 
                 slack_client.api_call(
                     "chat.postMessage",
@@ -141,7 +142,6 @@ def handle_event(channel, org, message):
                     text = debug_event,
                     as_user = True
                 )
-
                 session.commit()
             else:
                 slack_client.api_call(
@@ -150,7 +150,6 @@ def handle_event(channel, org, message):
                     text = response,
                     as_user = True
                 )
-
                 session.commit()
 
 
