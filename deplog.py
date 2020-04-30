@@ -139,7 +139,7 @@ def handle_event(channel, org, message):
                 slack_client.api_call(
                     "chat.postMessage",
                     channel = debug_channel,
-                    text = debug_event,
+                    text = 'else',
                     as_user = True
                 )
                 session.commit()
