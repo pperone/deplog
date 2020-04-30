@@ -13,6 +13,9 @@ from sqlalchemy.orm import sessionmaker
 # Database creation and setup
 engine = create_engine(os.environ['DATABASE_URL'])
 base = declarative_base()
+debug_channel = 'C01224QRGSV'
+debug_event = ''
+debugging = False
 
 class Organization(base):  
     __tablename__ = 'organizations'
@@ -75,6 +78,8 @@ def evaluate_org(channel):
 def parse_bot_commands(slack_events):
     for event in slack_events:
         if event["type"] == "message" and not "subtype" in event:
+            debug_event = event
+
             if "attachments" in event:
                 org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
                 message = event["attachments"][0]["text"]
@@ -121,14 +126,31 @@ def handle_event(channel, org, message):
         response = "\n \n" + s_icon + " *staging  |*  Current branch: *" + org.staging + "* \n\n " + f_icon + " *feature  |*  Current branch: *" + org.feature + "* \n\n " + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
         if not production:
-            slack_client.api_call(
-                "chat.postMessage",
-                channel = channel,
-                text = response,
-                as_user = True
-            )
+            if debugging:
+                slack_client.api_call(
+                    "chat.postMessage",
+                    channel = channel,
+                    text = response,
+                    as_user = True
+                )
 
-            session.commit()
+                slack_client.api_call(
+                    "chat.postMessage",
+                    channel = debug_channel,
+                    text = debug_event,
+                    as_user = True
+                )
+
+                session.commit()
+            else:
+                slack_client.api_call(
+                    "chat.postMessage",
+                    channel = channel,
+                    text = response,
+                    as_user = True
+                )
+
+                session.commit()
 
 
 if __name__ == "__main__":
