@@ -79,6 +79,10 @@ def parse_bot_commands(slack_events):
                 org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
                 message = event["attachments"][0]["text"]
                 handle_event(channel, org, message)
+            else:
+                org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
+                message = event["text"]
+                handle_event(channel, org, message)
 
     return None, None
 
