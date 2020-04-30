@@ -14,7 +14,6 @@ from sqlalchemy.orm import sessionmaker
 engine = create_engine(os.environ['DATABASE_URL'])
 base = declarative_base()
 debug_channel = 'C01224QRGSV'
-debug_event = ''
 debugging = True
 
 class Organization(base):  
@@ -83,17 +82,17 @@ def parse_bot_commands(slack_events):
             if "attachments" in event:
                 org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
                 message = event["attachments"][0]["text"]
-                handle_event(channel, org, message)
+                handle_event(channel, org, message, event)
             else:
                 org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
                 message = event["text"]
-                handle_event(channel, org, message)
+                handle_event(channel, org, message, event)
 
     return None, None
 
 
 # All the possible commands from user input
-def handle_event(channel, org, message):
+def handle_event(channel, org, message, debug_event):
     response = None
     production = False
     env_starter = '*Environment*'
@@ -139,7 +138,7 @@ def handle_event(channel, org, message):
                 slack_client.api_call(
                     "chat.postMessage",
                     channel = debug_channel,
-                    text = 'else',
+                    text = debug_event,
                     as_user = True
                 )
                 session.commit()
