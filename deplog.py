@@ -102,6 +102,8 @@ def handle_event(channel, org, message):
             org.feature = branch
         elif environment == 'teammobile':
             org.teammobile = branch
+        elif environment == 'master':
+            master = True
 
         if org.staging == 'develop':
             s_icon = ':green_apple:'
@@ -114,14 +116,15 @@ def handle_event(channel, org, message):
 
         response = "\n \n" + s_icon + " *staging  |*  Current branch: *" + org.staging + "* \n\n " + f_icon + " *feature  |*  Current branch: *" + org.feature + "* \n\n " + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*"
 
-        slack_client.api_call(
-            "chat.postMessage",
-            channel = channel,
-            text = response,
-            as_user = True
-        )
+        if not master:
+            slack_client.api_call(
+                "chat.postMessage",
+                channel = channel,
+                text = response,
+                as_user = True
+            )
 
-        session.commit()
+            session.commit()
 
 
 if __name__ == "__main__":
