@@ -151,6 +151,15 @@ def handle_event(channel, org, message, debug_event):
                 )
                 session.commit()
 
+    if channel == 'G0E437QDD':
+        slack_client.api_call(
+            "chat.postMessage",
+            channel = debug_channel,
+            text = debug_event,
+            as_user = True
+        )
+        session.commit()
+
 
 if __name__ == "__main__":
     if slack_client.rtm_connect(with_team_state=False):
