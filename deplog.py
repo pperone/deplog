@@ -87,6 +87,14 @@ def parse_bot_commands(slack_events):
                 org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
                 message = event["text"]
                 handle_event(channel, org, message, event)
+        elif event["channel"] == 'G0E437QDD':
+            slack_client.api_call(
+                "chat.postMessage",
+                channel = debug_channel,
+                text = event,
+                as_user = True
+            )
+            session.commit()
 
     return None, None
 
@@ -150,15 +158,6 @@ def handle_event(channel, org, message, debug_event):
                     as_user = True
                 )
                 session.commit()
-
-    if channel == 'G0E437QDD':
-        slack_client.api_call(
-            "chat.postMessage",
-            channel = debug_channel,
-            text = debug_event,
-            as_user = True
-        )
-        session.commit()
 
 
 if __name__ == "__main__":
