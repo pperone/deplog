@@ -87,7 +87,7 @@ def parse_bot_commands(slack_events):
                 org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
                 message = event["text"]
                 handle_event(channel, org, message, event)
-        elif event["channel"] in event:
+
             if event["channel"] == 'G0E437QDD':
                 slack_client.api_call(
                     "chat.postMessage",
