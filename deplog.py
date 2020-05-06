@@ -81,7 +81,7 @@ def parse_bot_commands(slack_events):
 
             if "attachments" in event:
                 org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
-                message = event["attachments"][0]["text"]
+                message = event["attachments"][0]
                 handle_event(channel, org, message, event)
             else:
                 org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
@@ -105,16 +105,14 @@ def parse_bot_commands(slack_events):
 def handle_event(channel, org, message, debug_event):
     response = None
     production = False
-    env_starter = '*Environment*'
-    branch_starter = '*Branch*'
+    start = message["title"]
+    environment = message["fields"][0]["value"]
+    branch = message["fields"][1]["value"]
     s_icon = ':apple:'
     f_icon = ':apple:'
     t_icon = ':apple:'
 
-    if message.startswith('*New version deployed'):
-        environment = message[message.index(env_starter) + len(env_starter):].split()[0]
-        branch = message[message.index(branch_starter) + len(branch_starter):].split()[0]
-
+    if start.startswith('New version deployed'):
         if environment == 'staging':
             org.staging = branch
         elif environment == 'feature':
