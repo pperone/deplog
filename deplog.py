@@ -77,16 +77,12 @@ def evaluate_org(channel):
 def parse_bot_commands(slack_events):
     for event in slack_events:
         if event["type"] == "message" and not "subtype" in event:
-            debug_event = event
 
             if "attachments" in event:
-                org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
-                message = event["attachments"][0]
-                handle_event(channel, org, message, event)
-            else:
-                org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
-                message = event["text"]
-                handle_event(channel, org, message, event)
+                if event["attachments"][0]["title"].startswith('New version deployed'):
+                    org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
+                    message = event["attachments"][0]
+                    handle_event(channel, org, message, event)
 
         if 'channel' in event:
             if event["channel"] == 'G0E437QDD':
