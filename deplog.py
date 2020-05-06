@@ -88,14 +88,13 @@ def parse_bot_commands(slack_events):
                 message = event["text"]
                 handle_event(channel, org, message, event)
 
-            if event["channel"] == 'G0E437QDD':
-                slack_client.api_call(
-                    "chat.postMessage",
-                    channel = debug_channel,
-                    text = event,
-                    as_user = True
-                )
-                session.commit()
+        slack_client.api_call(
+            "chat.postMessage",
+            channel = debug_channel,
+            text = event,
+            as_user = True
+        )
+        session.commit()
 
     return None, None
 
