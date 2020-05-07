@@ -36,6 +36,7 @@ deplog_id = None
 
 
 # Constants
+CHANNEL = 'G0E437QDD'
 RTM_READ_DELAY = 1
 MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
 
@@ -75,40 +76,28 @@ def evaluate_org(channel):
 
 # Processes the message
 def parse_bot_commands(slack_events):
+    org = get_org(CHANNEL)
+
     for event in slack_events:
         if event["type"] == "message" and not "subtype" in event:
-
             if "attachments" in event:
-                if event["attachments"][0]["title"].startswith('New version deployed'):
-                    org, channel, staging, feature, teammobile = evaluate_org(event["channel"])
-                    message = event["attachments"][0]
-                    handle_event(channel, org, message, event)
-
-        if 'channel' in event:
-            if event["channel"] == 'G0E437QDD':
-                slack_client.api_call(
-                    "chat.postMessage",
-                    channel = debug_channel,
-                    text = event,
-                    as_user = True
-                )
-                session.commit()
+                handle_event(org, event)
 
     return None, None
 
 
 # All the possible commands from user input
-def handle_event(channel, org, message, debug_event):
+def handle_event(org, event):
     response = None
     production = False
-    start = message["title"]
-    environment = message["fields"][0]["value"]
-    branch = message["fields"][1]["value"]
+    title = event["attachments"][0]["title"]
+    environment = event["attachments"][0]["fields"][0]["value"]
+    branch = event["attachments"][0]["fields"][1]["value"]
     s_icon = ':apple:'
     f_icon = ':apple:'
     t_icon = ':apple:'
 
-    if start.startswith('New version deployed'):
+    if title.startswith('New version deployed'):
         if environment == 'staging':
             org.staging = branch
         elif environment == 'feature':
@@ -133,7 +122,7 @@ def handle_event(channel, org, message, debug_event):
             if debugging:
                 slack_client.api_call(
                     "chat.postMessage",
-                    channel = channel,
+                    channel = CHANNEL,
                     text = response,
                     as_user = True
                 )
@@ -142,14 +131,14 @@ def handle_event(channel, org, message, debug_event):
                 slack_client.api_call(
                     "chat.postMessage",
                     channel = debug_channel,
-                    text = debug_event,
+                    text = event,
                     as_user = True
                 )
                 session.commit()
             else:
                 slack_client.api_call(
                     "chat.postMessage",
-                    channel = channel,
+                    channel = CHANNEL,
                     text = response,
                     as_user = True
                 )
