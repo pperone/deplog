@@ -41,37 +41,10 @@ RTM_READ_DELAY = 1
 MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
 
 
-# Creates an organization in the database
-def create_org(channel):
-    org = Organization(channel=channel, feature='', staging='', teammobile='')
-    session.add(Organization(channel=channel, feature='', staging='', teammobile=''))
-    session.commit()
-    return org
-
-
 # Retrieves the organization from the database from the channel name
 def get_org(channel):
     org = session.query(Organization).filter_by(channel=channel).first()
     return org
-
-
-# Create organization if it doesn't exist, retrieve it if it does
-def evaluate_org(channel):
-    org = get_org(channel)
-
-    if org:
-        channel = org.channel
-        staging = org.staging
-        feature = org.feature
-        teammobile = org.teammobile
-    else:
-        org = create_org(channel)
-        channel = org.channel
-        staging = org.staging
-        feature = org.feature
-        teammobile = org.teammobile
-    
-    return org, channel, staging, feature, teammobile
 
 
 # Processes the message
@@ -79,7 +52,7 @@ def parse_bot_commands(slack_events):
     org = get_org(CHANNEL)
 
     for event in slack_events:
-        if event["type"] == "message" and not "subtype" in event:
+        if event["type"] == "message":
             if "attachments" in event:
                 handle_event(org, event)
 
