@@ -52,9 +52,11 @@ def parse_bot_commands(slack_events):
     org = get_org(CHANNEL)
 
     for event in slack_events:
-        if event["type"] == "message":
-            if "attachments" in event:
-                handle_event(org, event)
+        if 'channel' in event:
+            if event["channel"] == CHANNEL: 
+                if event["type"] == "message":
+                    if "attachments" in event:
+                        handle_event(org, event)
 
     return None, None
 
