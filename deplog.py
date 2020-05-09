@@ -56,7 +56,8 @@ def parse_bot_commands(slack_events):
             if event["channel"] == CHANNEL: 
                 if event["type"] == "message":
                     if "attachments" in event:
-                        handle_event(org, event)
+                        if "title" in event["attachments"][0]:
+                            handle_event(org, event)
                 
                 slack_client.api_call(
                     "chat.postMessage",
