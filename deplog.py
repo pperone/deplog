@@ -60,7 +60,7 @@ def parse_bot_commands(slack_events):
                 
                 slack_client.api_call(
                     "chat.postMessage",
-                    channel = CHANNEL,
+                    channel = debug_channel,
                     text = event,
                     as_user = True
                 )
