@@ -57,7 +57,15 @@ def parse_bot_commands(slack_events):
                 if event["type"] == "message":
                     if "attachments" in event:
                         handle_event(org, event)
-
+                
+                slack_client.api_call(
+                    "chat.postMessage",
+                    channel = CHANNEL,
+                    text = event,
+                    as_user = True
+                )
+                session.commit()
+                    
     return None, None
 
 
