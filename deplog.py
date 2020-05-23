@@ -142,7 +142,7 @@ def handle_event(org, event):
             else:
                 slack_client.api_call(
                     "chat.postMessage",
-                    channel = CHANNEL,
+                    channel = debug_channel,
                     text = response,
                     as_user = True
                 )
