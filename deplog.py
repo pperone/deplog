@@ -82,7 +82,7 @@ def parse_bot_commands(slack_events):
 def handle_event(org, event):
     response = None
     production = False
-    time = datetime.datetime.now().strftime("%b %d,%Y | %H:%M")
+    time = datetime.datetime.now().strftime("%b %d %Y, %H:%M")
 
     title = event["attachments"][0]["title"]
     environment = event["attachments"][0]["fields"][0]["value"]
@@ -118,7 +118,7 @@ def handle_event(org, event):
         if org.teammobile == 'develop':
             t_icon = ':green_apple:'
 
-        response = "\n \n" + s_icon + " *staging  |*  Current branch: *" + org.staging + "*  |  Deployed by *" + org.s_deployer + "* on " + org.s_deployed + " \n\n"\
+        response = s_icon + " *staging  |*  Current branch: *" + org.staging + "*  |  Deployed by *" + org.s_deployer + "* on " + org.s_deployed + " \n\n"\
                    + f_icon + " *feature  |*  Current branch: *" + org.feature + "*  |  Deployed by *" + org.f_deployer + "* on " + org.f_deployed + " \n\n"\
                    + t_icon + " *teammobile  |*  Current branch: *" + org.teammobile + "*  |  Deployed by *" + org.t_deployer + "* on " + org.t_deployed
 
