@@ -109,13 +109,13 @@ def handle_event(org, event):
         elif environment == 'production':
             production = True
 
-        if org.staging == 'develop':
+        if org.staging == 'develop' or org.staging.startswith('master_pre_production'):
             s_icon = ':green_apple:'
 
-        if org.feature == 'develop':
+        if org.feature == 'develop' or org.feature.startswith('master_pre_production'):
             f_icon = ':green_apple:'
 
-        if org.teammobile == 'develop':
+        if org.teammobile == 'develop' or org.teammobile.startswith('master_pre_production'):
             t_icon = ':green_apple:'
 
         response = s_icon + " *staging    |*    Current branch: *" + org.staging + "    |*    Deployed by *" + org.s_deployer + "* on " + org.s_deployed + " \n\n"\
