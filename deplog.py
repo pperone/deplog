@@ -1,9 +1,10 @@
 import os
 import time
-import datetime
 import re
 
 from slackclient import SlackClient
+
+from datetime import datetime, timedelta
 
 from sqlalchemy import create_engine  
 from sqlalchemy import Column, String, Integer, ARRAY
@@ -82,7 +83,7 @@ def parse_bot_commands(slack_events):
 def handle_event(org, event):
     response = None
     production = False
-    time = datetime.datetime.now().strftime("%b %d %Y, %H:%M")
+    time = (datetime.datetime.now() - timedelta(hours = 3)).strftime("%b %d %Y, %H:%M")
 
     title = event["attachments"][0]["title"]
     environment = event["attachments"][0]["fields"][0]["value"]
