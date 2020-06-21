@@ -83,7 +83,7 @@ def parse_bot_commands(slack_events):
 def handle_event(org, event):
     response = None
     production = False
-    time = (datetime.datetime.now() - timedelta(hours = 3)).strftime("%b %d %Y, %H:%M")
+    time = (datetime.datetime.now() - timedelta(hours = 3)).strftime("%b %d %Y, %H:%M UY")
 
     title = event["attachments"][0]["title"]
     environment = event["attachments"][0]["fields"][0]["value"]
