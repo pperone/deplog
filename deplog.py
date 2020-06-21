@@ -122,6 +122,8 @@ def handle_event(org, event):
                    + f_icon + " *feature    |*    Current branch: *" + org.feature + "    |*    Deployed by *" + org.f_deployer + "* on " + org.f_deployed + " \n\n"\
                    + t_icon + " *teammobile    |*    Current branch: *" + org.teammobile + "    |*    Deployed by *" + org.t_deployer + "* on " + org.t_deployed
 
+        time.sleep(120)
+
         if not production:
             if debugging:
                 slack_client.api_call(
