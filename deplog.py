@@ -57,7 +57,7 @@ def get_org(channel):
 
 # Processes the message
 def parse_bot_commands(slack_events):
-    # ev = {"type": "message", "subtype": "bot_message", "text": "", "suppress_notification": False, "username": "Slackistrano", "icons": {"image_48": "https://s3-us-west-2.amazonaws.com/slack-files2/bot_icons/2017-05-24/187498878213_48.png"}, "bot_id": "B0E14A2BA", "team": "T02FPTL8D", "bot_profile": {"id": "B0E14A2BA", "deleted": False, "name": "incoming-webhook", "updated": 1446819626, "app_id": "A0F7XDUAZ", "icons": {"image_36": "https://a.slack-edge.com/80588/img/services/outgoing-webhook_36.png", "image_48": "https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png", "image_72": "https://a.slack-edge.com/80588/img/services/outgoing-webhook_72.png"}, "team_id": "T02FPTL8D"}, "attachments": [{"fallback": "Pablo Ulguin has finished deploying branch master of backlotcars to production", "title": "New version deployed :boom::bangbang:", "id": 1, "color": "2eb886", "fields": [{"title": "Environment", "value": "load-test", "short": True}, {"title": "Branch", "value": "master", "short": True}, {"title": "Deployer", "value": "Pablo Ulguin", "short": True}, {"title": "Revision", "value": "53b853d", "short": True}, {"title": "Time to deploy", "value": "04:37", "short": True}, {"title": "www", "value": "https://backlotcars.com", "short": True}]}], "channel": "G0E437QDD", "event_ts": "1589220562.071000", "ts": "1589220562.071000"}
+    ev = {"type": "message", "subtype": "bot_message", "text": "", "suppress_notification": False, "username": "Slackistrano", "icons": {"image_48": "https://s3-us-west-2.amazonaws.com/slack-files2/bot_icons/2017-05-24/187498878213_48.png"}, "bot_id": "B0E14A2BA", "team": "T02FPTL8D", "bot_profile": {"id": "B0E14A2BA", "deleted": False, "name": "incoming-webhook", "updated": 1446819626, "app_id": "A0F7XDUAZ", "icons": {"image_36": "https://a.slack-edge.com/80588/img/services/outgoing-webhook_36.png", "image_48": "https://a.slack-edge.com/80588/img/services/outgoing-webhook_48.png", "image_72": "https://a.slack-edge.com/80588/img/services/outgoing-webhook_72.png"}, "team_id": "T02FPTL8D"}, "attachments": [{"fallback": "Pablo Ulguin has finished deploying branch master of backlotcars to production", "title": "New version deployed :boom::bangbang:", "id": 1, "color": "2eb886", "fields": [{"title": "Environment", "value": "load-test", "short": True}, {"title": "Branch", "value": "master", "short": True}, {"title": "Deployer", "value": "Pablo Ulguin", "short": True}, {"title": "Revision", "value": "53b853d", "short": True}, {"title": "Time to deploy", "value": "04:37", "short": True}, {"title": "www", "value": "https://backlotcars.com", "short": True}]}], "channel": "G0E437QDD", "event_ts": "1589220562.071000", "ts": "1589220562.071000"}
     org = get_org(CHANNEL)
 
     for event in slack_events:
@@ -68,6 +68,8 @@ def parse_bot_commands(slack_events):
                         if "title" in event["attachments"][0]:
                             handle_event(org, event)
                 
+                handle_event(org, ev)
+
                 # slack_client.api_call(
                 #     "chat.postMessage",
                 #     channel = debug_channel,
