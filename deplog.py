@@ -16,7 +16,7 @@ from sqlalchemy.orm import sessionmaker
 engine = create_engine(os.environ['DATABASE_URL'])
 base = declarative_base()
 debug_channel = 'C01224QRGSV'
-debugging = False
+debugging = True
 
 class Organization(base):  
     __tablename__ = 'organizations'
