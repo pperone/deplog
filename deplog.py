@@ -125,7 +125,7 @@ def handle_event(org, event):
                    + f_icon + " *feature   |*   Branch: *" + org.feature + "   |*   Deployed by *" + org.f_deployer + "* on " + org.f_deployed + " \n\n"\
                    + t_icon + " *teammobile   |*   Branch: *" + org.teammobile + "   |*   Deployed by *" + org.t_deployer + "* on " + org.t_deployed
 
-        time.sleep(120)
+        time.sleep(80)
 
         if not production:
             if debugging:
