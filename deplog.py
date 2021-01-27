@@ -31,6 +31,9 @@ class Organization(base):
     teammobile = Column(String)
     t_deployer = Column(String)
     t_deployed = Column(String)
+    teamfinance = Column(String)
+    tf_deployer = Column(String)
+    tf_deployed = Column(String)
 
 Session = sessionmaker(engine)  
 session = Session()
@@ -95,6 +98,7 @@ def handle_event(org, event):
     s_icon = ':apple:'
     f_icon = ':apple:'
     t_icon = ':apple:'
+    tf_icon = ':apple:'
 
     if title.startswith('New version deployed'):
         if environment == 'staging':
@@ -109,6 +113,10 @@ def handle_event(org, event):
             org.teammobile = branch
             org.t_deployer = deployer
             org.t_deployed = t
+        elif environment == 'teamfinance':
+            org.teamfinance = branch
+            org.tf_deployer = deployer
+            org.tf_deployed = t
         elif environment == 'production':
             production = True
 
@@ -120,10 +128,14 @@ def handle_event(org, event):
 
         if org.teammobile == 'develop' or org.teammobile.startswith('master_pre_production'):
             t_icon = ':green_apple:'
+        
+        if org.teamfinance == 'develop' or org.teamfinance.startswith('master_pre_production'):
+            tf_icon = ':green_apple:'
 
         response = s_icon + " *staging   |*   Branch: *" + org.staging + "   |*   Deployed by *" + org.s_deployer + "* on " + org.s_deployed + " \n\n"\
                    + f_icon + " *feature   |*   Branch: *" + org.feature + "   |*   Deployed by *" + org.f_deployer + "* on " + org.f_deployed + " \n\n"\
-                   + t_icon + " *teammobile   |*   Branch: *" + org.teammobile + "   |*   Deployed by *" + org.t_deployer + "* on " + org.t_deployed
+                   + t_icon + " *teammobile   |*   Branch: *" + org.teammobile + "   |*   Deployed by *" + org.t_deployer + "* on " + org.t_deployed + " \n\n"\
+                   + tf_icon + " *teamfinance   |*   Branch: *" + org.teamfinance + "   |*   Deployed by *" + org.tf_deployer + "* on " + org.tf_deployed
 
         time.sleep(80)
 
