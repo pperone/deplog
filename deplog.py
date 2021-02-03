@@ -16,6 +16,8 @@ from sqlalchemy.orm import sessionmaker
 engine = create_engine(os.environ['DATABASE_URL'])
 base = declarative_base()
 debug_channel = 'C01224QRGSV'
+
+# Turn this to true for full messages to be sent to debugging Slack channel
 debugging = False
 
 class Organization(base):  
