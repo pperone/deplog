@@ -34,6 +34,9 @@ class Organization(base):
     teamfinance = Column(String)
     tf_deployer = Column(String)
     tf_deployed = Column(String)
+    teamfinance2 = Column(String)
+    tf2_deployer = Column(String)
+    tf2_deployed = Column(String)
 
 Session = sessionmaker(engine)  
 session = Session()
