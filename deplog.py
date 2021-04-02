@@ -102,6 +102,7 @@ def handle_event(org, event):
     f_icon = ':apple:'
     t_icon = ':apple:'
     tf_icon = ':apple:'
+    tf2_icon = ':apple:'
 
     if title.startswith('New version deployed'):
         if environment == 'staging':
@@ -120,6 +121,10 @@ def handle_event(org, event):
             org.teamfinance = branch
             org.tf_deployer = deployer
             org.tf_deployed = t
+        elif environment == 'teamfinance2':
+            org.teamfinance2 = branch
+            org.tf2_deployer = deployer
+            org.tf2_deployed = t
         elif environment == 'production':
             production = True
 
@@ -134,11 +139,15 @@ def handle_event(org, event):
         
         if org.teamfinance == 'develop' or org.teamfinance.startswith('master_pre_production'):
             tf_icon = ':green_apple:'
+        
+        if org.teamfinance2 == 'develop' or org.teamfinance.startswith('master_pre_production'):
+            tf2_icon = ':green_apple:'
 
         response = s_icon + " *staging   |*   Branch: *" + org.staging + "   |*   Deployed by *" + org.s_deployer + "* on " + org.s_deployed + " \n\n"\
                    + f_icon + " *feature   |*   Branch: *" + org.feature + "   |*   Deployed by *" + org.f_deployer + "* on " + org.f_deployed + " \n\n"\
                    + t_icon + " *teammobile   |*   Branch: *" + org.teammobile + "   |*   Deployed by *" + org.t_deployer + "* on " + org.t_deployed + " \n\n"\
-                   + tf_icon + " *teamfinance   |*   Branch: *" + org.teamfinance + "   |*   Deployed by *" + org.tf_deployer + "* on " + org.tf_deployed
+                   + tf_icon + " *teamfinance1   |*   Branch: *" + org.teamfinance + "   |*   Deployed by *" + org.tf_deployer + "* on " + org.tf_deployed + " \n\n"\
+                   + tf2_icon + " *teamfinance2   |*   Branch: *" + org.teamfinance2 + "   |*   Deployed by *" + org.tf2_deployer + "* on " + org.tf2_deployed 
 
         time.sleep(80)
 
