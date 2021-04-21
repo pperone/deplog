@@ -108,6 +108,7 @@ def handle_event(org, event):
     t_icon = ':apple:'
     tf_icon = ':apple:'
     tf2_icon = ':apple:'
+    tf3_icon = ':apple:'
 
     if title.startswith('New version deployed'):
         if environment == 'staging':
@@ -130,6 +131,10 @@ def handle_event(org, event):
             org.teamfinance2 = branch
             org.tf2_deployer = deployer
             org.tf2_deployed = t
+        elif environment == 'teamfinance3':
+            org.teamfinance3 = branch
+            org.tf3_deployer = deployer
+            org.tf3_deployed = t
         elif environment == 'production':
             production = True
 
@@ -147,6 +152,9 @@ def handle_event(org, event):
         
         if org.teamfinance2 == 'develop' or org.teamfinance.startswith('master_pre_production'):
             tf2_icon = ':green_apple:'
+        
+        if org.teamfinance3 == 'develop' or org.teamfinance.startswith('master_pre_production'):
+            tf3_icon = ':green_apple:'
 
         response = s_icon + " *staging   |*   Branch: *" + org.staging + "   |*   Deployed by *" + org.s_deployer + "* on " + org.s_deployed + " \n\n"\
                    + f_icon + " *feature   |*   Branch: *" + org.feature + "   |*   Deployed by *" + org.f_deployer + "* on " + org.f_deployed + " \n\n"\
