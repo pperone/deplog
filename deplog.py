@@ -160,7 +160,8 @@ def handle_event(org, event):
                    + f_icon + " *feature   |*   Branch: *" + org.feature + "   |*   Deployed by *" + org.f_deployer + "* on " + org.f_deployed + " \n\n"\
                    + t_icon + " *teammobile   |*   Branch: *" + org.teammobile + "   |*   Deployed by *" + org.t_deployer + "* on " + org.t_deployed + " \n\n"\
                    + tf_icon + " *teamfinance1   |*   Branch: *" + org.teamfinance + "   |*   Deployed by *" + org.tf_deployer + "* on " + org.tf_deployed + " \n\n"\
-                   + tf2_icon + " *teamfinance2   |*   Branch: *" + org.teamfinance2 + "   |*   Deployed by *" + org.tf2_deployer + "* on " + org.tf2_deployed 
+                   + tf2_icon + " *teamfinance2   |*   Branch: *" + org.teamfinance2 + "   |*   Deployed by *" + org.tf2_deployer + "* on " + org.tf2_deployed + " \n\n"\
+                   + tf3_icon + " *teamfinance3   |*   Branch: *" + org.teamfinance3 + "   |*   Deployed by *" + org.tf3_deployer + "* on " + org.tf3_deployed
 
         time.sleep(80)
 
