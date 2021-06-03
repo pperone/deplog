@@ -139,7 +139,7 @@ def handle_event(org, event):
             org.teamfinance3 = branch
             org.tf3_deployer = deployer
             org.tf3_deployed = t
-        elif environment == 'teamtransport':
+        elif environment == 'team_transport':
             org.teamtransport = branch
             org.tt_deployer = deployer
             org.tt_deployed = t
