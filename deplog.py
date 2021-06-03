@@ -112,6 +112,7 @@ def handle_event(org, event):
     tf_icon = ':apple:'
     tf2_icon = ':apple:'
     tf3_icon = ':apple:'
+    tt_icon = ':apple:'
 
     if title.startswith('New version deployed'):
         if environment == 'staging':
@@ -138,6 +139,10 @@ def handle_event(org, event):
             org.teamfinance3 = branch
             org.tf3_deployer = deployer
             org.tf3_deployed = t
+        elif environment == 'teamtransport':
+            org.teamtransport = branch
+            org.tt_deployer = deployer
+            org.tt_deployed = t
         elif environment == 'production':
             production = True
 
@@ -153,10 +158,13 @@ def handle_event(org, event):
         if org.teamfinance == 'develop' or org.teamfinance.startswith('master_pre_production'):
             tf_icon = ':green_apple:'
         
-        if org.teamfinance2 == 'develop' or org.teamfinance.startswith('master_pre_production'):
+        if org.teamfinance2 == 'develop' or org.teamfinance2.startswith('master_pre_production'):
             tf2_icon = ':green_apple:'
         
-        if org.teamfinance3 == 'develop' or org.teamfinance.startswith('master_pre_production'):
+        if org.teamfinance3 == 'develop' or org.teamfinance3.startswith('master_pre_production'):
+            tf3_icon = ':green_apple:'
+
+        if org.teamtransport == 'develop' or org.teamtransport.startswith('master_pre_production'):
             tf3_icon = ':green_apple:'
 
         response = s_icon + " *staging   |*   Branch: *" + org.staging + "   |*   Deployed by *" + org.s_deployer + "* on " + org.s_deployed + " \n\n"\
@@ -164,7 +172,8 @@ def handle_event(org, event):
                    + t_icon + " *teammobile   |*   Branch: *" + org.teammobile + "   |*   Deployed by *" + org.t_deployer + "* on " + org.t_deployed + " \n\n"\
                    + tf_icon + " *teamfinance1   |*   Branch: *" + org.teamfinance + "   |*   Deployed by *" + org.tf_deployer + "* on " + org.tf_deployed + " \n\n"\
                    + tf2_icon + " *teamfinance2   |*   Branch: *" + org.teamfinance2 + "   |*   Deployed by *" + org.tf2_deployer + "* on " + org.tf2_deployed + " \n\n"\
-                   + tf3_icon + " *teamfinance3   |*   Branch: *" + org.teamfinance3 + "   |*   Deployed by *" + org.tf3_deployer + "* on " + org.tf3_deployed
+                   + tf3_icon + " *teamfinance3   |*   Branch: *" + org.teamfinance3 + "   |*   Deployed by *" + org.tf3_deployer + "* on " + org.tf3_deployed + " \n\n"\
+                   + tt_icon + " *teamtransport   |*   Branch: *" + org.teamtransport + "   |*   Deployed by *" + org.tt_deployer + "* on " + org.tt_deployed
 
         time.sleep(80)
 
