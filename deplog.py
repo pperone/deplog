@@ -165,7 +165,7 @@ def handle_event(org, event):
             tf3_icon = ':green_apple:'
 
         if org.teamtransport == 'develop' or org.teamtransport.startswith('master_pre_production'):
-            tf3_icon = ':green_apple:'
+            tt_icon = ':green_apple:'
 
         response = s_icon + " *staging   |*   Branch: *" + org.staging + "   |*   Deployed by *" + org.s_deployer + "* on " + org.s_deployed + " \n\n"\
                    + f_icon + " *feature   |*   Branch: *" + org.feature + "   |*   Deployed by *" + org.f_deployer + "* on " + org.f_deployed + " \n\n"\
